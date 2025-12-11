@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Calculator - Multi Calc Pro</title>
+    <title>Cash Mate - Calculator</title>
+    
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css"> <!-- Link to CSS file -->
+    
+    <!-- External CSS File Link (Make sure style.css exists) -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -13,29 +17,41 @@
     <!-- HEADER -->
     <header>
         <i class="fas fa-bars" onclick="openNav()" style="cursor:pointer; font-size:1.2rem; color:var(--text-main)"></i>
-        <h1>Multi Calc Pro</h1>
+        <h1>Cash Mate</h1>
         <i class="fas fa-moon" id="themeIcon" onclick="toggleTheme()" style="cursor:pointer; font-size:1.2rem"></i>
     </header>
 
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR MENU -->
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <div style="padding:20px; font-weight:bold; color:var(--primary)">Menu</div>
-        <a href="index.html"><i class="fas fa-calculator"></i> Home</a>
+        
+        <div style="padding:20px; font-weight:bold; color:var(--primary); border-bottom:1px solid var(--border)">
+            <i class="fas fa-wallet"></i> Cash Mate Pro
+        </div>
+        
+        <a href="index.html" onclick="closeNav()"><i class="fas fa-calculator"></i> Home</a>
+        <a href="finance.html"><i class="fas fa-rupee-sign"></i> Banking Tools</a>
         <a href="tools.html"><i class="fas fa-th-large"></i> All Tools</a>
-        <a href="#" onclick="shareApp()"><i class="fas fa-share-alt"></i> Share Us</a>
-        <a href="https://www.google.com" target="_blank"><i class="fas fa-shield-alt"></i> Privacy Policy</a>
+        
+        <!-- SHARE BUTTON (Triggers Java Code) -->
+        <a href="#" onclick="shareApp()"><i class="fas fa-share-alt"></i> Share App</a>
+        
+        <!-- PRIVACY POLICY (Opens in Chrome via Java Code) -->
+        <!-- Apna asli Policy URL yahan daal dena -->
+        <a href="https://sites.google.com/view/cashmate-policy" target="_blank"><i class="fas fa-shield-alt"></i> Privacy Policy</a>
     </div>
 
-    <!-- MAIN CALCULATOR UI -->
+    <!-- MAIN CALCULATOR -->
     <main>
         <div class="card" style="border:none; box-shadow:none; background:transparent; height:100%; display:flex; flex-direction:column; justify-content:flex-end;">
             <div style="text-align:right; padding:20px;">
-                <div id="calcExpr" style="font-size:1.2rem; color:var(--text-sec); min-height:1.5em"></div>
-                <div id="calcRes" style="font-size:3.5rem; font-weight:600; color:var(--text-main)">0</div>
+                <!-- Expression (Small) -->
+                <div id="calcExpr" style="font-size:1.2rem; color:var(--text-sec); min-height:1.5em; overflow:hidden;"></div>
+                <!-- Result (Big) -->
+                <div id="calcRes" style="font-size:3.5rem; font-weight:600; color:var(--text-main); word-wrap:break-word;">0</div>
             </div>
             
-            <!-- Keypad (Same as your code) -->
+            <!-- KEYPAD GRID -->
             <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px;">
                 <button class="btn" style="background:var(--bg-color); color:var(--danger)" onclick="clr()">AC</button>
                 <button class="btn" style="background:var(--bg-color); color:var(--accent)" onclick="del()"><i class="fas fa-backspace"></i></button>
@@ -57,14 +73,15 @@
                 <button class="btn" style="background:var(--surface); color:var(--text-main)" onclick="ins('3')">3</button>
                 <button class="btn" style="background:var(--bg-color); color:var(--accent)" onclick="ins('+')">+</button>
 
+                <button class="btn" style="background:var(--surface); color:var(--text-main)" onclick="ins('00')">00</button>
                 <button class="btn" style="background:var(--surface); color:var(--text-main)" onclick="ins('0')">0</button>
                 <button class="btn" style="background:var(--surface); color:var(--text-main)" onclick="ins('.')">.</button>
-                <button class="btn" style="background:var(--primary); color:#fff; grid-column:span 2" onclick="calc()">=</button>
+                <button class="btn" style="background:var(--primary); color:#fff" onclick="calc()">=</button>
             </div>
         </div>
     </main>
 
-    <!-- BOTTOM NAV (Links to separate pages) -->
+    <!-- BOTTOM NAVIGATION -->
     <nav>
         <a href="index.html" class="nav-btn active"><i class="fas fa-calculator"></i> Calc</a>
         <a href="finance.html" class="nav-btn"><i class="fas fa-rupee-sign"></i> Finance</a>
@@ -73,33 +90,87 @@
 </div>
 
 <script>
-    // Theme Logic
-    if(localStorage.getItem('theme') === 'dark') document.body.setAttribute('data-theme', 'dark');
+    // --- 1. THEME LOGIC ---
+    if(localStorage.getItem('theme') === 'dark') {
+        document.body.setAttribute('data-theme', 'dark');
+        document.getElementById('themeIcon').classList.replace('fa-moon', 'fa-sun');
+    }
+    
     function toggleTheme() {
         if(document.body.getAttribute('data-theme') === 'dark') {
-            document.body.removeAttribute('data-theme'); localStorage.setItem('theme', 'light');
+            document.body.removeAttribute('data-theme'); 
+            localStorage.setItem('theme', 'light');
+            document.getElementById('themeIcon').classList.replace('fa-sun', 'fa-moon');
         } else {
-            document.body.setAttribute('data-theme', 'dark'); localStorage.setItem('theme', 'dark');
+            document.body.setAttribute('data-theme', 'dark'); 
+            localStorage.setItem('theme', 'dark');
+            document.getElementById('themeIcon').classList.replace('fa-moon', 'fa-sun');
         }
     }
 
-    // Sidebar Logic
-    function openNav() { document.getElementById("mySidenav").style.width = "250px"; }
+    // --- 2. SIDEBAR LOGIC ---
+    function openNav() { document.getElementById("mySidenav").style.width = "260px"; }
     function closeNav() { document.getElementById("mySidenav").style.width = "0"; }
-    function shareApp() { 
-        if(navigator.share) navigator.share({title:'Multi Calc', text:'Check out this cool calculator!', url: window.location.href});
-        else alert('Link copied to clipboard');
+
+    // --- 3. SHARE APP FUNCTION (FIXED) ---
+    function shareApp() {
+        closeNav(); // Menu band karo
+
+        // Check: Agar user Android App me hai (WebView)
+        // Hum "app://share" redirect karenge, jo Java Code pakad lega
+        window.location.href = "app://share";
+
+        // Fallback: Agar galti se browser me khola hai to Web Share API use karo
+        setTimeout(function() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Cash Mate App',
+                    text: 'Download Cash Mate - The Best Calculator App:',
+                    url: 'https://play.google.com/store/apps/details?id=com.asparksys.cashmate'
+                }).catch((error) => console.log('Error sharing', error));
+            }
+        }, 500); 
     }
 
-    // Calc Logic
+    // --- 4. CALCULATOR LOGIC ---
     let expr = "";
-    function ins(v) { expr += v; document.getElementById('calcExpr').innerText = expr; }
-    function clr() { expr = ""; document.getElementById('calcExpr').innerText = ""; document.getElementById('calcRes').innerText = "0"; }
-    function del() { expr = expr.slice(0,-1); document.getElementById('calcExpr').innerText = expr; }
+    
+    function ins(v) { 
+        expr += v; 
+        updateScreen(); 
+    }
+    
+    function clr() { 
+        expr = ""; 
+        document.getElementById('calcExpr').innerText = ""; 
+        document.getElementById('calcRes').innerText = "0"; 
+    }
+    
+    function del() { 
+        expr = expr.slice(0,-1); 
+        updateScreen(); 
+    }
+    
+    function updateScreen() {
+        document.getElementById('calcExpr').innerText = expr.replace(/\*/g, '×').replace(/\//g, '÷');
+    }
+
     function calc() {
-        try { document.getElementById('calcRes').innerText = eval(expr); expr = eval(expr).toString(); }
-        catch { document.getElementById('calcRes').innerText = "Error"; }
+        try { 
+            let res = eval(expr);
+            // Fix decimals (max 4 digits)
+            if(!Number.isInteger(res)) res = res.toFixed(4).replace(/\.?0+$/, "");
+            
+            document.getElementById('calcRes').innerText = res; 
+            document.getElementById('calcExpr').innerText = expr.replace(/\*/g, '×').replace(/\//g, '÷') + " =";
+            expr = res.toString(); 
+        }
+        catch { 
+            document.getElementById('calcRes').innerText = "Error"; 
+            expr = "";
+        }
     }
 </script>
+
 </body>
 </html>
