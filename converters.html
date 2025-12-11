@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Converters - Multi Calc Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-container">
+    <header>
+        <a href="tools.html" style="color:var(--text-main)"><i class="fas fa-arrow-left"></i></a>
+        <h1>Unit Converter</h1>
+        <div></div>
+    </header>
+
+    <main>
+        <div class="card">
+            <h3>Length</h3>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
+                <div>
+                    <label>Meters</label>
+                    <input type="number" id="m" oninput="convLen('m')">
+                </div>
+                <div>
+                    <label>Feet</label>
+                    <input type="number" id="f" oninput="convLen('f')">
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Weight</h3>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
+                <div>
+                    <label>Kilograms</label>
+                    <input type="number" id="kg" oninput="convWei('kg')">
+                </div>
+                <div>
+                    <label>Pounds</label>
+                    <input type="number" id="lb" oninput="convWei('lb')">
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    if(localStorage.getItem('theme') === 'dark') document.body.setAttribute('data-theme', 'dark');
+
+    function convLen(type) {
+        let m = document.getElementById('m'), f = document.getElementById('f');
+        if(type === 'm') f.value = (m.value * 3.28084).toFixed(2);
+        else m.value = (f.value / 3.28084).toFixed(2);
+    }
+
+    function convWei(type) {
+        let kg = document.getElementById('kg'), lb = document.getElementById('lb');
+        if(type === 'kg') lb.value = (kg.value * 2.20462).toFixed(2);
+        else kg.value = (lb.value / 2.20462).toFixed(2);
+    }
+</script>
+</body>
+</html> 

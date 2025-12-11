@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tools - Multi Calc Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-container">
+    <header>
+        <i class="fas fa-bars" onclick="openNav()" style="cursor:pointer; font-size:1.2rem; color:var(--text-main)"></i>
+        <h1>Tools Menu</h1>
+        <div></div> <!-- Empty for spacing -->
+    </header>
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div style="padding:20px; font-weight:bold; color:var(--primary)">Menu</div>
+        <a href="index.html">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="#">Privacy Policy</a>
+    </div>
+
+    <main>
+        <h2 style="margin-bottom:20px; color:var(--text-sec)">Select a Calculator</h2>
+        
+        <div class="tool-grid">
+            <!-- Link to Finance Page -->
+            <a href="finance.html" class="tool-card">
+                <i class="fas fa-chart-pie" style="color:#00c853"></i><br>
+                <span>Finance & EMI</span>
+            </a>
+
+            <!-- Link to Converters Page -->
+            <a href="converters.html" class="tool-card">
+                <i class="fas fa-ruler-combined" style="color:#ff9800"></i><br>
+                <span>Unit Converter</span>
+            </a>
+
+            <!-- Built-in Age Calc (Direct Logic) -->
+            <div class="tool-card" onclick="document.getElementById('ageModal').style.display='block'">
+                <i class="fas fa-birthday-cake" style="color:#d32f2f"></i><br>
+                <span>Age Calc</span>
+            </div>
+
+            <!-- New Discount Calc -->
+            <div class="tool-card" onclick="document.getElementById('discModal').style.display='block'">
+                <i class="fas fa-tags" style="color:#2979ff"></i><br>
+                <span>Discount</span>
+            </div>
+        </div>
+
+        <!-- AGE MODAL (Simple Popup for quick tools) -->
+        <div id="ageModal" style="display:none; margin-top:20px;" class="card">
+            <h3>Age Calculator</h3>
+            <input type="date" id="dob">
+            <button class="btn" onclick="calcAge()">Calculate</button>
+            <div id="ageRes" style="margin-top:10px; font-weight:bold; text-align:center;"></div>
+            <button onclick="this.parentElement.style.display='none'" style="margin-top:10px; background:transparent; color:var(--text-sec); border:none">Close</button>
+        </div>
+
+        <!-- DISCOUNT MODAL -->
+        <div id="discModal" style="display:none; margin-top:20px;" class="card">
+            <h3>Discount Calculator</h3>
+            <input type="number" id="d-price" placeholder="Price">
+            <input type="number" id="d-off" placeholder="Discount %">
+            <button class="btn" onclick="calcDisc()">Calculate</button>
+            <div id="discRes" style="margin-top:10px; font-weight:bold; text-align:center;"></div>
+            <button onclick="this.parentElement.style.display='none'" style="margin-top:10px; background:transparent; color:var(--text-sec); border:none">Close</button>
+        </div>
+
+    </main>
+
+    <nav>
+        <a href="index.html" class="nav-btn"><i class="fas fa-calculator"></i> Calc</a>
+        <a href="finance.html" class="nav-btn"><i class="fas fa-rupee-sign"></i> Finance</a>
+        <a href="tools.html" class="nav-btn active"><i class="fas fa-shapes"></i> Tools</a>
+    </nav>
+</div>
+
+<script>
+    if(localStorage.getItem('theme') === 'dark') document.body.setAttribute('data-theme', 'dark');
+    function openNav() { document.getElementById("mySidenav").style.width = "250px"; }
+    function closeNav() { document.getElementById("mySidenav").style.width = "0"; }
+
+    function calcAge() {
+        let dob = new Date(document.getElementById('dob').value);
+        let diff = Date.now() - dob.getTime();
+        let ageDate = new Date(diff); 
+        document.getElementById('ageRes').innerText = Math.abs(ageDate.getUTCFullYear() - 1970) + " Years Old";
+    }
+
+    function calcDisc() {
+        let p = document.getElementById('d-price').value;
+        let d = document.getElementById('d-off').value;
+        let saved = p * (d/100);
+        let final = p - saved;
+        document.getElementById('discRes').innerHTML = `Final: ${final} <br> <small style='color:green'>Saved: ${saved}</small>`;
+    }
+</script>
+</body>
+</html>
