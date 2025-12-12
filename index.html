@@ -5,141 +5,178 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CashMate Pro</title>
     
-    <!-- ICONS & FONTS -->
+    <!-- ICONS (FontAwesome) - Internet Required for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* ========================================= */
-        /*          THEME SETTINGS (CSS)             */
-        /* ========================================= */
+        /* ==================== THEME VARIABLES ==================== */
         :root {
             --primary: #6c5ce7;
             --accent: #00cec9;
-            --glass-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.6);
-            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-            --text-main: #2d3436;
-            --text-sec: #636e72;
-            --bg-gradient: linear-gradient(-45deg, #a8c0ff, #3f2b96, #2193b0, #6dd5ed);
+            --bg-color: #f0f2f5;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text-main: #1e272e;
+            --text-sec: #57606f;
+            --border: rgba(0,0,0,0.05);
+            --shadow: 0 4px 15px rgba(0,0,0,0.05);
+            --gradient: linear-gradient(135deg, #a8c0ff 0%, #3f2b96 100%);
         }
 
-        /* DARK MODE */
         [data-theme="dark"] {
             --primary: #a29bfe;
             --accent: #81ecec;
-            --glass-bg: rgba(25, 25, 25, 0.92);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            --bg-color: #121212;
+            --card-bg: rgba(30, 30, 30, 0.95);
             --text-main: #ffffff;
             --text-sec: #b2bec3;
-            --bg-gradient: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #000000);
+            --border: rgba(255,255,255,0.1);
+            --shadow: 0 4px 15px rgba(0,0,0,0.5);
+            --gradient: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
         }
 
-        /* GLOBAL STYLES */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
+        /* ==================== GLOBAL STYLES ==================== */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
         
         body {
-            background: var(--bg-gradient); background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            color: var(--text-main); height: 100vh; display: flex; justify-content: center; overflow: hidden; user-select: none;
+            background: var(--gradient);
+            background-attachment: fixed; /* Fixes background scroll issue */
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-        .app-container {
-            width: 100%; max-width: 500px; height: 100%;
-            background: rgba(255,255,255,0.01); display: flex; flex-direction: column; backdrop-filter: blur(5px);
-        }
-
-        main { flex: 1; overflow-y: auto; scroll-behavior: smooth; padding: 0 15px 100px 15px; }
-        main::-webkit-scrollbar { width: 0; }
 
         /* HEADER */
-        header { padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-        header h1 { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.5px; background: -webkit-linear-gradient(45deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        header {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        header h1 { font-size: 1.4rem; font-weight: 700; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+
+        /* MAIN CONTENT AREA */
+        main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            padding-bottom: 100px; /* Space for bottom nav */
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        /* Hide Scrollbar */
+        main::-webkit-scrollbar { width: 0; }
+
+        /* TAB SECTIONS */
+        .tab-section { display: none; width: 100%; animation: fadeIn 0.3s ease; }
+        .tab-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* CARDS */
         .card {
-            background: var(--glass-bg); border-radius: 24px; padding: 20px; margin-bottom: 15px;
-            box-shadow: var(--glass-shadow); border: 1px solid var(--glass-border);
-            transition: transform 0.2s;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
         }
-        
-        /* INPUTS & BUTTONS */
+
+        /* INPUTS */
         input {
-            width: 100%; padding: 15px; border: 2px solid transparent; border-radius: 16px;
-            background: rgba(128,128,128,0.08); color: var(--text-main); font-size: 1.1rem;
-            margin-bottom: 12px; outline: none; font-weight: 600; transition: 0.3s;
+            width: 100%; padding: 14px; border: 2px solid transparent; border-radius: 12px;
+            background: rgba(128,128,128,0.1); color: var(--text-main); font-size: 1rem;
+            margin-bottom: 10px; outline: none; font-weight: 500;
         }
-        input:focus { border-color: var(--primary); background: rgba(128,128,128,0.02); }
+        input:focus { border-color: var(--primary); background: var(--card-bg); }
 
+        /* BUTTONS */
         .btn {
-            background: linear-gradient(135deg, var(--primary), #6c5ce7); color: #fff; border: none;
-            padding: 16px; border-radius: 18px; font-size: 1rem; font-weight: 700; width: 100%;
-            cursor: pointer; box-shadow: 0 8px 20px rgba(108, 92, 231, 0.3); position: relative; overflow: hidden;
+            background: var(--primary); color: #fff; border: none; padding: 14px;
+            border-radius: 12px; font-size: 1rem; font-weight: 600; width: 100%;
+            cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .btn:active { transform: scale(0.97); }
+        .btn:active { transform: scale(0.98); }
 
-        /* --- NEW PROFILE & SOCIAL SECTION (The Khatarnak Part) --- */
-        .profile-header { text-align: center; padding: 10px 0 20px 0; }
-        .profile-img { 
-            width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(45deg, var(--primary), var(--accent)); 
-            margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        .verified-badge { color: #3b82f6; font-size: 0.9rem; vertical-align: middle; margin-left: 5px; }
-        
-        .social-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
-        .social-btn {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: var(--glass-bg); padding: 15px 5px; border-radius: 16px; border: 1px solid var(--glass-border);
-            cursor: pointer; transition: 0.2s; box-shadow: var(--glass-shadow);
-        }
-        .social-btn i { font-size: 1.5rem; margin-bottom: 5px; }
-        .social-btn span { font-size: 0.7rem; font-weight: 600; opacity: 0.8; }
-        .social-btn:active { transform: scale(0.9); }
-        
-        /* Brand Colors */
-        .soc-insta { color: #E1306C; }
-        .soc-tele { color: #0088cc; }
-        .soc-mail { color: #EA4335; }
-        .soc-web { color: var(--text-main); }
-
-        .menu-list { margin-top: 10px; }
-        .menu-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 16px; background: rgba(128,128,128,0.05); margin-bottom: 10px;
-            border-radius: 16px; cursor: pointer; border: 1px solid transparent;
-        }
-        .menu-item:hover { border-color: var(--primary); background: rgba(128,128,128,0.08); }
-        .menu-item i { width: 30px; color: var(--primary); font-size: 1.1rem; }
-
-        /* --- NAVIGATION --- */
+        /* ==================== BOTTOM NAVIGATION ==================== */
         nav {
-            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%;
-            background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); border-radius: 35px;
-            display: flex; justify-content: space-around; padding: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 100;
-            border: 1px solid rgba(255,255,255,0.4);
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 500px;
+            background: var(--card-bg); border-radius: 25px; display: flex; justify-content: space-around;
+            padding: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 1000;
+            border: 1px solid var(--border);
         }
-        [data-theme="dark"] nav { background: rgba(30,30,30,0.8); border-color: rgba(255,255,255,0.1); }
-        .nav-btn { background: none; border: none; color: var(--text-sec); font-size: 1.3rem; padding: 10px; border-radius: 50%; transition: 0.3s; }
-        .nav-btn.active { background: var(--primary); color: white; transform: translateY(-5px); box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4); }
+        .nav-btn {
+            background: none; border: none; color: var(--text-sec); font-size: 1.2rem;
+            padding: 10px; border-radius: 15px; transition: 0.2s; position: relative;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .nav-btn.active { color: var(--primary); background: rgba(108, 92, 231, 0.1); transform: translateY(-3px); }
+        .nav-text { font-size: 0.6rem; margin-top: 2px; font-weight: 600; }
 
-        /* UTILS & TOOLS */
-        .tab-section { display: none; animation: fadeIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        /* ==================== CALCULATOR UI ==================== */
+        .calc-display { text-align: right; margin-bottom: 15px; }
+        .calc-expr { font-size: 1rem; color: var(--text-sec); min-height: 20px; }
+        .calc-res { font-size: 3rem; font-weight: 700; color: var(--text-main); word-break: break-all; }
         
-        .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .tool-card { background: var(--glass-bg); padding: 25px 15px; border-radius: 22px; text-align: center; border: 1px solid var(--glass-border); cursor: pointer; }
-        .tool-card i { font-size: 2rem; margin-bottom: 10px; color: var(--primary); background: rgba(108, 92, 231, 0.1); padding: 15px; border-radius: 50%; }
+        .keypad { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .key {
+            background: rgba(128,128,128,0.05); color: var(--text-main); font-size: 1.4rem; padding: 18px 0;
+            border-radius: 16px; border: 1px solid var(--border); cursor: pointer;
+        }
+        .key:active { background: rgba(128,128,128,0.2); }
+        .key.op { color: var(--primary); font-weight: bold; }
+        .key.eq { background: var(--primary); color: #fff; }
 
-        /* CALCULATOR */
-        .keypad { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-        .key { background: var(--glass-bg); color: var(--text-main); font-size: 1.4rem; padding: 20px 0; border-radius: 20px; border: 1px solid var(--glass-border); cursor: pointer; box-shadow: 0 4px 0 rgba(0,0,0,0.05); }
-        .key:active { transform: translateY(4px); box-shadow: none; }
-        .key.eq { background: var(--primary); color: #fff; border: none; box-shadow: 0 4px 0 #4834d4; }
-        .calc-res { font-size: 3.5rem; font-weight: 700; text-align: right; overflow-x: auto; white-space: nowrap; }
+        .sci-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; max-height: 0; overflow: hidden; transition: 0.3s; opacity: 0; }
+        .sci-row.open { max-height: 100px; opacity: 1; padding-bottom: 10px; }
+        .sci-key { font-size: 0.9rem; padding: 10px; background: rgba(128,128,128,0.1); border:none; border-radius: 10px; color: var(--text-main); }
 
+        /* ==================== TOOLS GRID ==================== */
+        .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .tool-card {
+            background: var(--card-bg); padding: 20px; border-radius: 16px; text-align: center;
+            border: 1px solid var(--border); cursor: pointer; transition: 0.2s;
+        }
+        .tool-card:active { transform: scale(0.97); background: rgba(108, 92, 231, 0.05); }
+        .tool-card i { font-size: 2rem; color: var(--primary); margin-bottom: 8px; }
+        
+        /* HIDDEN PANELS */
+        .tool-panel { display: none; }
+        .tool-panel.active { display: block; animation: fadeIn 0.3s; }
+        
+        /* ==================== PROFILE & SETTINGS ==================== */
+        .profile-head { text-align: center; padding: 10px; }
+        .avatar { 
+            width: 70px; height: 70px; background: linear-gradient(45deg, var(--primary), var(--accent)); 
+            border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1.8rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .social-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 15px 0; }
+        .soc-btn { 
+            display: flex; flex-direction: column; align-items: center; padding: 10px 5px; 
+            background: rgba(128,128,128,0.05); border-radius: 12px; font-size: 0.75rem; font-weight: 600;
+        }
+        .soc-btn i { font-size: 1.4rem; margin-bottom: 5px; }
+
+        .menu-item {
+            display: flex; justify-content: space-between; align-items: center; padding: 15px;
+            border-bottom: 1px solid var(--border); cursor: pointer;
+        }
+        .menu-item:last-child { border-bottom: none; }
+
+        /* UTILS */
         .flex-between { display: flex; justify-content: space-between; align-items: center; }
         .text-accent { color: var(--accent); } .text-danger { color: #ff7675; } .text-success { color: #00b894; }
 
@@ -147,220 +184,270 @@
 </head>
 <body>
 
-<div class="app-container">
+    <!-- HEADER -->
     <header>
-        <h1>CashMate <span style="font-size:0.5em; opacity:0.6">PRO</span></h1>
-        <i class="fas fa-moon" id="themeIcon" onclick="toggleTheme()" style="cursor:pointer; font-size:1.4rem; color:var(--text-main)"></i>
+        <h1>CashMate <i class="fas fa-bolt" style="font-size:0.7em; color:yellow;"></i></h1>
+        <i class="fas fa-moon" id="themeIcon" onclick="toggleTheme()" style="color:white; font-size:1.4rem; cursor:pointer;"></i>
     </header>
 
+    <!-- MAIN CONTENT -->
     <main>
-        <!-- =========================== -->
-        <!-- TAB 1: CALCULATOR -->
-        <!-- =========================== -->
+        
+        <!-- ======================= TAB 1: CALCULATOR ======================= -->
         <section id="tab-calc" class="tab-section active">
-            <div class="card" style="background:transparent; border:none; box-shadow:none;">
-                <div style="text-align:right; margin-bottom:15px">
-                    <div id="calcExpr" style="color:var(--text-sec); height:20px; font-size:1.1rem"></div>
-                    <div id="calcRes" class="calc-res">0</div>
-                </div>
-                <div class="flex-between" style="margin-bottom:15px; padding:0 5px;">
-                    <span onclick="toggleSci()" style="background:rgba(128,128,128,0.15); padding:8px 16px; border-radius:20px; color:var(--primary); font-weight:600; font-size:0.9rem; cursor:pointer">Scientific Mode</span>
-                    <i class="fas fa-copy" onclick="copyResult()" style="color:var(--text-sec); cursor:pointer; font-size:1.2rem"></i>
+            <div class="card">
+                <div class="calc-display">
+                    <div class="calc-expr" id="calcExpr"></div>
+                    <div class="calc-res" id="calcRes">0</div>
                 </div>
                 
-                <div id="sciRow" style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px; height:0; overflow:hidden; transition:0.3s; opacity:0; margin-bottom:5px;">
-                    <button class="key" style="padding:10px; font-size:1rem" onclick="insert('Math.sin(')">sin</button> <button class="key" style="padding:10px; font-size:1rem" onclick="insert('Math.cos(')">cos</button>
-                    <button class="key" style="padding:10px; font-size:1rem" onclick="insert('Math.tan(')">tan</button> <button class="key" style="padding:10px; font-size:1rem" onclick="insert('Math.sqrt(')">√</button>
-                    <button class="key" style="padding:10px; font-size:1rem" onclick="insert('(')">(</button> <button class="key" style="padding:10px; font-size:1rem" onclick="insert(')')">)</button>
-                    <button class="key" style="padding:10px; font-size:1rem" onclick="insert('**')">^</button> <button class="key" style="padding:10px; font-size:1rem" onclick="insert('Math.PI')">π</button>
+                <div class="flex-between" style="margin-bottom:10px">
+                    <span onclick="toggleSci()" style="font-size:0.8rem; font-weight:600; color:var(--primary); padding:5px 10px; background:rgba(128,128,128,0.1); border-radius:10px; cursor:pointer">
+                        <i class="fas fa-flask"></i> Scientific
+                    </span>
+                    <i class="fas fa-copy" onclick="copyResult()" style="color:var(--text-sec); cursor:pointer"></i>
+                </div>
+
+                <div class="sci-row" id="sciRow">
+                    <button class="sci-key" onclick="insert('Math.sin(')">sin</button> <button class="sci-key" onclick="insert('Math.cos(')">cos</button>
+                    <button class="sci-key" onclick="insert('Math.sqrt(')">√</button> <button class="sci-key" onclick="insert('**')">^</button>
                 </div>
 
                 <div class="keypad">
-                    <button class="key" style="color:#ff7675" onclick="clearAll()">AC</button> <button class="key" style="color:#ff7675" onclick="backspace()">⌫</button>
-                    <button class="key" style="color:var(--accent)" onclick="insert('%')">%</button> <button class="key" style="color:var(--accent)" onclick="insert('/')">÷</button>
-                    <button class="key" onclick="insert('7')">7</button> <button class="key" onclick="insert('8')">8</button> <button class="key" onclick="insert('9')">9</button> <button class="key" style="color:var(--accent)" onclick="insert('*')">×</button>
-                    <button class="key" onclick="insert('4')">4</button> <button class="key" onclick="insert('5')">5</button> <button class="key" onclick="insert('6')">6</button> <button class="key" style="color:var(--accent)" onclick="insert('-')">−</button>
-                    <button class="key" onclick="insert('1')">1</button> <button class="key" onclick="insert('2')">2</button> <button class="key" onclick="insert('3')">3</button> <button class="key" style="color:var(--accent)" onclick="insert('+')">+</button>
-                    <button class="key" onclick="insert('00')">00</button> <button class="key" onclick="insert('0')">0</button> <button class="key" onclick="insert('.')">.</button> <button class="key eq" onclick="calcResult()">=</button>
+                    <button class="key" style="color:#ff7675" onclick="clearAll()">AC</button>
+                    <button class="key" style="color:#ff7675" onclick="backspace()"><i class="fas fa-backspace"></i></button>
+                    <button class="key op" onclick="insert('%')">%</button>
+                    <button class="key op" onclick="insert('/')">÷</button>
+                    
+                    <button class="key" onclick="insert('7')">7</button>
+                    <button class="key" onclick="insert('8')">8</button>
+                    <button class="key" onclick="insert('9')">9</button>
+                    <button class="key op" onclick="insert('*')">×</button>
+                    
+                    <button class="key" onclick="insert('4')">4</button>
+                    <button class="key" onclick="insert('5')">5</button>
+                    <button class="key" onclick="insert('6')">6</button>
+                    <button class="key op" onclick="insert('-')">−</button>
+                    
+                    <button class="key" onclick="insert('1')">1</button>
+                    <button class="key" onclick="insert('2')">2</button>
+                    <button class="key" onclick="insert('3')">3</button>
+                    <button class="key op" onclick="insert('+')">+</button>
+                    
+                    <button class="key" onclick="insert('00')">00</button>
+                    <button class="key" onclick="insert('0')">0</button>
+                    <button class="key" onclick="insert('.')">.</button>
+                    <button class="key eq" onclick="calcResult()">=</button>
                 </div>
             </div>
         </section>
 
-        <!-- =========================== -->
-        <!-- TAB 2: CASH TALLY -->
-        <!-- =========================== -->
+        <!-- ======================= TAB 2: CASH TALLY ======================= -->
         <section id="tab-cash" class="tab-section">
             <div class="card">
-                <div class="flex-between"><h3>Cash Tally</h3> <span onclick="resetCash()" style="color:var(--text-danger); font-weight:bold; cursor:pointer; background:rgba(255,0,0,0.1); padding:5px 10px; border-radius:10px;">RESET</span></div>
-                <div id="cashContainer" style="margin-top:20px"></div>
-                
-                <div class="card" style="background:linear-gradient(135deg, var(--primary), var(--accent)); color:white; margin-top:20px; text-align:center; padding:25px; border:none; box-shadow:0 10px 25px rgba(108, 92, 231, 0.3);">
-                    <small style="opacity:0.9; letter-spacing:1px">GRAND TOTAL</small>
-                    <div id="cashGrandTotal" style="font-size:2.5rem; font-weight:800; margin-top:5px">₹0</div>
+                <div class="flex-between" style="margin-bottom:15px">
+                    <h3>Cash Tally</h3>
+                    <span onclick="resetCash()" style="color:#ff7675; font-weight:bold; font-size:0.9rem; cursor:pointer">RESET</span>
                 </div>
                 
-                <button class="btn" style="background:#25D366; margin-top:10px" onclick="shareCash()"><i class="fab fa-whatsapp"></i> Share on WhatsApp</button>
+                <div id="cashContainer"></div> <!-- Generated by JS -->
+
+                <div class="card" style="background:var(--primary); color:#fff; text-align:center; padding:20px; margin-top:15px; border:none;">
+                    <small>GRAND TOTAL</small>
+                    <div id="cashGrandTotal" style="font-size:2.2rem; font-weight:bold;">₹0</div>
+                </div>
+
+                <button class="btn" style="background:#25D366; margin-top:10px" onclick="shareCash()">
+                    <i class="fab fa-whatsapp"></i> Share on WhatsApp
+                </button>
             </div>
         </section>
 
-        <!-- =========================== -->
-        <!-- TAB 3: TOOLS -->
-        <!-- =========================== -->
+        <!-- ======================= TAB 3: TOOLS ======================= -->
         <section id="tab-tools" class="tab-section">
-            <input type="text" id="toolSearch" onkeyup="filterTools()" placeholder="🔍 Find Tools (GST, SIP...)" style="position:sticky; top:0; z-index:50; backdrop-filter:blur(15px); box-shadow:0 10px 30px rgba(0,0,0,0.1); border-color:var(--primary);">
-
-            <div id="tools-menu" class="tool-grid">
-                <div class="tool-card" onclick="openTool('emi')"><i class="fas fa-home"></i><br>EMI Loan</div>
-                <div class="tool-card" onclick="openTool('sip')"><i class="fas fa-chart-line"></i><br>SIP Invest</div>
-                <div class="tool-card" onclick="openTool('gst')"><i class="fas fa-percent"></i><br>GST Calc</div>
-                <div class="tool-card" onclick="openTool('age')"><i class="fas fa-birthday-cake"></i><br>Age Calc</div>
-                <div class="tool-card" onclick="openTool('bmi')"><i class="fas fa-weight"></i><br>BMI Health</div>
-                <div class="tool-card" onclick="openTool('fd')"><i class="fas fa-piggy-bank"></i><br>FD Calc</div>
-                <div class="tool-card" onclick="openTool('discount')"><i class="fas fa-tags"></i><br>Discount</div>
+            <!-- Tool Menu -->
+            <div id="tools-menu">
+                <input type="text" id="toolSearch" onkeyup="filterTools()" placeholder="🔍 Search (GST, SIP, Age...)" style="margin-bottom:15px">
+                <div class="tool-grid">
+                    <div class="tool-card" onclick="openTool('emi')"><i class="fas fa-home"></i><br>EMI</div>
+                    <div class="tool-card" onclick="openTool('sip')"><i class="fas fa-chart-line"></i><br>SIP</div>
+                    <div class="tool-card" onclick="openTool('gst')"><i class="fas fa-percent"></i><br>GST</div>
+                    <div class="tool-card" onclick="openTool('age')"><i class="fas fa-birthday-cake"></i><br>Age</div>
+                    <div class="tool-card" onclick="openTool('bmi')"><i class="fas fa-weight"></i><br>BMI</div>
+                    <div class="tool-card" onclick="openTool('fd')"><i class="fas fa-piggy-bank"></i><br>FD</div>
+                    <div class="tool-card" onclick="openTool('discount')"><i class="fas fa-tags"></i><br>Discount</div>
+                </div>
             </div>
 
-            <!-- HIDDEN TOOL PANELS -->
-            <div id="panel-emi" class="tool-panel"><div class="card"><div class="flex-between"><i class="fas fa-chevron-left" onclick="closeTool()" style="font-size:1.5rem"></i> <h3>EMI Loan</h3> <div></div></div><hr style="margin:15px 0; border:0; border-top:1px solid #ddd"><input type="number" id="emi-p" placeholder="Loan Amount" oninput="calcEMI()"><div style="display:flex; gap:10px"><input type="number" id="emi-r" placeholder="Rate %" oninput="calcEMI()"> <input type="number" id="emi-n" placeholder="Years" oninput="calcEMI()"></div><div class="flex-between" style="margin-top:10px"><span>EMI:</span> <b id="out-emi" class="text-accent" style="font-size:1.5rem">0</b></div></div></div>
-            <div id="panel-sip" class="tool-panel"><div class="card"><div class="flex-between"><i class="fas fa-chevron-left" onclick="closeTool()" style="font-size:1.5rem"></i> <h3>SIP Invest</h3> <div></div></div><hr style="margin:15px 0; border:0; border-top:1px solid #ddd"><input type="number" id="sip-p" placeholder="Monthly Invest" oninput="calcSIP()"><div style="display:flex; gap:10px"><input type="number" id="sip-r" placeholder="Return %" oninput="calcSIP()"> <input type="number" id="sip-n" placeholder="Years" oninput="calcSIP()"></div><div class="flex-between" style="margin-top:10px"><span>Total:</span> <b id="out-sip-total" class="text-success" style="font-size:1.5rem">0</b></div></div></div>
-            <div id="panel-gst" class="tool-panel"><div class="card"><div class="flex-between"><i class="fas fa-chevron-left" onclick="closeTool()" style="font-size:1.5rem"></i> <h3>GST Calc</h3> <div></div></div><hr style="margin:15px 0; border:0; border-top:1px solid #ddd"><input type="number" id="gst-amt" placeholder="Amount" oninput="calcGST()"><input type="number" id="gst-per" placeholder="Tax %" value="18" oninput="calcGST()"><div class="flex-between" style="margin-top:10px"><span>Final:</span> <b id="out-gst-total" class="text-primary" style="font-size:1.5rem">0</b></div></div></div>
-            <div id="panel-age" class="tool-panel"><div class="card"><div class="flex-between"><i class="fas fa-chevron-left" onclick="closeTool()" style="font-size:1.5rem"></i> <h3>Age Calc</h3> <div></div></div><hr style="margin:15px 0; border:0; border-top:1px solid #ddd"><input type="date" id="dob-input" onchange="calcAge()"><div id="age-result" style="text-align:center; font-size:1.3rem; font-weight:bold; margin-top:20px; color:var(--primary)">Select Date</div></div></div>
-            <div id="panel-bmi" class="tool-panel"><div class="card"><div class="flex-between"><i class="fas fa-chevron-left" onclick="closeTool()" style="font-size:1.5rem"></i> <h3>BMI Health</h3> <div></div></div><hr style="margin:15px 0; border:0; border-top:1px solid #ddd"><input type="number" id="bmi-w" placeholder="Weight (kg)" oninput="calcBMI()"><input type="number" id="bmi-h" placeholder="Height (cm)" oninput="calcBMI()"><div style="text-align:center; margin-top:15px"><b id="out-bmi" style="font-size:2rem" class="text-accent">0.0</b><br><span id="bmi-msg"></span></div></div></div>
-            <div id="panel-fd" class="tool-panel"><div class="card"><div class="flex-between"><i class="fas fa-chevron-left" onclick="closeTool()" style="font-size:1.5rem"></i> <h3>FD Returns</h3> <div></div></div><hr style="margin:15px 0; border:0; border-top:1px solid #ddd"><input type="number" id="fd-p" placeholder="Deposit Amount" oninput="calcFD()"><div style="display:flex; gap:10px"><input type="number" id="fd-r" placeholder="Rate %" oninput="calcFD()"> <input type="number" id="fd-t" placeholder="Months" oninput="calcFD()"></div><div class="flex-between" style="margin-top:10px"><span>Maturity:</span> <b id="out-fd-total" class="text-primary" style="font-size:1.5rem">0</b></div></div></div>
-            <div id="panel-discount" class="tool-panel"><div class="card"><div class="flex-between"><i class="fas fa-chevron-left" onclick="closeTool()" style="font-size:1.5rem"></i> <h3>Discount</h3> <div></div></div><hr style="margin:15px 0; border:0; border-top:1px solid #ddd"><input type="number" id="disc-p" placeholder="Price" oninput="calcDisc()"><input type="number" id="disc-d" placeholder="Discount %" oninput="calcDisc()"><div class="flex-between" style="margin-top:10px"><span>Payable:</span> <b id="out-disc" class="text-success" style="font-size:1.5rem">0</b></div></div></div>
+            <!-- HIDDEN PANELS -->
+            <div id="panel-emi" class="tool-panel card"><div class="flex-between"><i class="fas fa-arrow-left" onclick="closeTool()"></i> <h3>EMI Loan</h3><div></div></div><hr style="margin:10px 0; opacity:0.2"><input type="number" id="emi-p" placeholder="Loan Amount" oninput="calcEMI()"><div style="display:flex; gap:10px"><input type="number" id="emi-r" placeholder="Rate %" oninput="calcEMI()"><input type="number" id="emi-n" placeholder="Years" oninput="calcEMI()"></div><h2 class="text-accent" style="text-align:center; margin-top:10px" id="out-emi">0</h2><small style="display:block; text-align:center">Monthly EMI</small></div>
+
+            <div id="panel-sip" class="tool-panel card"><div class="flex-between"><i class="fas fa-arrow-left" onclick="closeTool()"></i> <h3>SIP Invest</h3><div></div></div><hr style="margin:10px 0; opacity:0.2"><input type="number" id="sip-p" placeholder="Monthly Invest" oninput="calcSIP()"><div style="display:flex; gap:10px"><input type="number" id="sip-r" placeholder="Rate %" oninput="calcSIP()"><input type="number" id="sip-n" placeholder="Years" oninput="calcSIP()"></div><h2 class="text-success" style="text-align:center; margin-top:10px" id="out-sip">0</h2><small style="display:block; text-align:center">Maturity Value</small></div>
+
+            <div id="panel-gst" class="tool-panel card"><div class="flex-between"><i class="fas fa-arrow-left" onclick="closeTool()"></i> <h3>GST Calc</h3><div></div></div><hr style="margin:10px 0; opacity:0.2"><input type="number" id="gst-amt" placeholder="Amount" oninput="calcGST()"><input type="number" id="gst-per" placeholder="GST % (e.g. 18)" value="18" oninput="calcGST()"><h2 class="text-primary" style="text-align:center; margin-top:10px" id="out-gst">0</h2><small style="display:block; text-align:center">Total Amount (Inc. Tax)</small></div>
+            
+            <div id="panel-age" class="tool-panel card"><div class="flex-between"><i class="fas fa-arrow-left" onclick="closeTool()"></i> <h3>Age Calc</h3><div></div></div><hr style="margin:10px 0; opacity:0.2"><input type="date" id="dob-input" onchange="calcAge()"><h3 style="text-align:center; margin-top:15px; color:var(--primary)" id="out-age">Select Date</h3></div>
+            
+            <div id="panel-bmi" class="tool-panel card"><div class="flex-between"><i class="fas fa-arrow-left" onclick="closeTool()"></i> <h3>BMI Calc</h3><div></div></div><hr style="margin:10px 0; opacity:0.2"><input type="number" id="bmi-w" placeholder="Weight (kg)" oninput="calcBMI()"><input type="number" id="bmi-h" placeholder="Height (cm)" oninput="calcBMI()"><h2 class="text-accent" style="text-align:center; margin-top:10px" id="out-bmi">0.0</h2><small style="display:block; text-align:center" id="bmi-msg">Result</small></div>
+            
+            <div id="panel-fd" class="tool-panel card"><div class="flex-between"><i class="fas fa-arrow-left" onclick="closeTool()"></i> <h3>FD Calc</h3><div></div></div><hr style="margin:10px 0; opacity:0.2"><input type="number" id="fd-p" placeholder="Deposit Amount" oninput="calcFD()"><div style="display:flex; gap:10px"><input type="number" id="fd-r" placeholder="Rate %" oninput="calcFD()"><input type="number" id="fd-t" placeholder="Months" oninput="calcFD()"></div><h2 class="text-primary" style="text-align:center; margin-top:10px" id="out-fd">0</h2><small style="display:block; text-align:center">Maturity Amount</small></div>
+            
+            <div id="panel-discount" class="tool-panel card"><div class="flex-between"><i class="fas fa-arrow-left" onclick="closeTool()"></i> <h3>Discount</h3><div></div></div><hr style="margin:10px 0; opacity:0.2"><input type="number" id="disc-p" placeholder="Price" oninput="calcDisc()"><input type="number" id="disc-d" placeholder="Discount %" oninput="calcDisc()"><h2 class="text-success" style="text-align:center; margin-top:10px" id="out-disc">0</h2><small style="display:block; text-align:center">Payable Amount</small></div>
+
         </section>
 
-        <!-- =========================== -->
-        <!-- TAB 4: PROFILE & SETTINGS (NEW) -->
-        <!-- =========================== -->
+        <!-- ======================= TAB 4: PROFILE & SETTINGS ======================= -->
         <section id="tab-profile" class="tab-section">
-            
-            <!-- PROFILE CARD -->
             <div class="card">
-                <div class="profile-header">
-                    <div class="profile-img"><i class="fas fa-user"></i></div>
-                    <h2 style="font-size:1.4rem">Developer Name <i class="fas fa-check-circle verified-badge"></i></h2>
-                    <p style="color:var(--text-sec); font-size:0.9rem">Full Stack Developer & Creator</p>
+                <div class="profile-head">
+                    <div class="avatar"><i class="fas fa-user-astronaut"></i></div>
+                    <h3>Developer Name <i class="fas fa-check-circle" style="color:#3498db; font-size:0.8em"></i></h3>
+                    <p style="color:var(--text-sec); font-size:0.8rem">Full Stack Developer</p>
                 </div>
 
-                <!-- SOCIAL GRID -->
-                <div class="social-grid">
-                    <div class="social-btn" onclick="openLink('instagram')">
-                        <i class="fab fa-instagram soc-insta"></i> <span>Insta</span>
-                    </div>
-                    <div class="social-btn" onclick="openLink('telegram')">
-                        <i class="fab fa-telegram-plane soc-tele"></i> <span>Tele</span>
-                    </div>
-                    <div class="social-btn" onclick="openLink('email')">
-                        <i class="fas fa-envelope soc-mail"></i> <span>Mail</span>
-                    </div>
-                    <div class="social-btn" onclick="openLink('website')">
-                        <i class="fas fa-globe soc-web"></i> <span>Web</span>
-                    </div>
+                <div class="social-row">
+                    <div class="soc-btn" onclick="openLink('insta')"><i class="fab fa-instagram" style="color:#E1306C"></i> Insta</div>
+                    <div class="soc-btn" onclick="openLink('tele')"><i class="fab fa-telegram" style="color:#0088cc"></i> Tele</div>
+                    <div class="soc-btn" onclick="openLink('mail')"><i class="fas fa-envelope" style="color:#EA4335"></i> Mail</div>
+                    <div class="soc-btn" onclick="openLink('web')"><i class="fas fa-globe" style="color:var(--text-main)"></i> Web</div>
                 </div>
-
-                <button class="btn" style="background: linear-gradient(to right, #11998e, #38ef7d);" onclick="suggestFeature()">
-                    <i class="fas fa-lightbulb"></i> &nbsp; Suggest New Feature
+                
+                <button class="btn" style="background:linear-gradient(to right, #11998e, #38ef7d);" onclick="contactUs()">
+                    <i class="fas fa-lightbulb"></i> Suggest Feature
                 </button>
             </div>
 
-            <!-- SETTINGS MENU -->
             <div class="card">
-                <h3 style="margin-bottom:15px; font-size:1.1rem; opacity:0.8">App Settings</h3>
-                
-                <div class="menu-list">
-                    <div class="menu-item" onclick="toggleTheme()">
-                        <div style="display:flex; align-items:center; gap:15px">
-                            <i class="fas fa-adjust"></i> <span>Dark Mode</span>
-                        </div>
-                        <i class="fas fa-toggle-on" id="setThemeIcon" style="font-size:1.5rem; color:var(--text-sec)"></i>
-                    </div>
-
-                    <div class="menu-item" onclick="wipeData()">
-                        <div style="display:flex; align-items:center; gap:15px">
-                            <i class="fas fa-trash-alt" style="color:#ff7675"></i> <span style="color:#ff7675">Clear Data</span>
-                        </div>
-                    </div>
-
-                    <div class="menu-item" onclick="shareApp()">
-                        <div style="display:flex; align-items:center; gap:15px">
-                            <i class="fas fa-share-nodes"></i> <span>Share App</span>
-                        </div>
-                        <i class="fas fa-chevron-right" style="font-size:0.8rem; opacity:0.5"></i>
-                    </div>
-
-                    <div class="menu-item" onclick="openPrivacy()">
-                        <div style="display:flex; align-items:center; gap:15px">
-                            <i class="fas fa-shield-alt"></i> <span>Privacy Policy</span>
-                        </div>
-                        <i class="fas fa-chevron-right" style="font-size:0.8rem; opacity:0.5"></i>
-                    </div>
+                <div class="menu-item" onclick="toggleTheme()">
+                    <span><i class="fas fa-adjust" style="color:var(--primary); width:25px"></i> Dark Mode</span>
+                    <i class="fas fa-toggle-on" id="setThemeIcon" style="font-size:1.5rem"></i>
                 </div>
-            </div>
-
-            <div style="text-align:center; opacity:0.6; font-size:0.8rem; padding-bottom:20px">
-                CashMate Pro v2.5 (Ultimate Edition)<br>
-                Made with ❤️ in India
+                <div class="menu-item" onclick="wipeData()">
+                    <span><i class="fas fa-trash" style="color:#ff7675; width:25px"></i> Clear Data</span>
+                </div>
+                <div class="menu-item" onclick="shareApp()">
+                    <span><i class="fas fa-share-alt" style="color:var(--text-main); width:25px"></i> Share App</span>
+                </div>
+                <div class="menu-item" onclick="openPrivacy()">
+                    <span><i class="fas fa-shield-alt" style="color:var(--accent); width:25px"></i> Privacy Policy</span>
+                </div>
             </div>
         </section>
 
-        <!-- PRIVACY POLICY MODAL -->
-        <section id="panel-privacy" class="tab-section">
-            <div class="card" style="height:85vh; display:flex; flex-direction:column;">
+        <!-- PRIVACY MODAL -->
+        <section id="modal-privacy" class="tab-section">
+            <div class="card" style="height:80vh; display:flex; flex-direction:column">
                 <div class="flex-between">
-                    <i class="fas fa-arrow-left" onclick="closePrivacy()" style="font-size:1.4rem; padding:10px; cursor:pointer"></i>
+                    <i class="fas fa-arrow-left" onclick="closePrivacy()" style="font-size:1.4rem; cursor:pointer"></i>
                     <h3>Privacy Policy</h3>
                     <div></div>
                 </div>
-                <hr style="margin:15px 0; border:0; border-top:1px solid var(--glass-border)">
-                
-                <div style="flex:1; overflow-y:auto; line-height:1.6; color:var(--text-sec); font-size:0.95rem; padding-right:5px">
-                    <p><strong>Effective Date:</strong> December 2024</p>
+                <hr style="margin:15px 0; opacity:0.2">
+                <div style="flex:1; overflow-y:auto; color:var(--text-sec); line-height:1.6; font-size:0.9rem">
+                    <p><strong>1. Data Privacy:</strong> This app works 100% offline. We do not collect or upload your financial data to any server.</p>
                     <br>
-                    <h4>1. Your Data is Yours</h4>
-                    <p>CashMate Pro operates entirely offline. We do not transmit your financial data, calculations, or tally records to any external server.</p>
+                    <p><strong>2. Local Storage:</strong> We use your device's local storage to save your Cash Tally and Theme preferences for your convenience.</p>
                     <br>
-                    <h4>2. Permissions</h4>
-                    <p>We only use minimal permissions required for basic functionality. No camera, location, or microphone access is needed.</p>
+                    <p><strong>3. Permissions:</strong> No special permissions required. Internet access is only used to load icons and fonts.</p>
                     <br>
-                    <h4>3. Third-Party Services</h4>
-                    <p>If you click on social media links or share buttons, you will be redirected to third-party apps which are governed by their own privacy policies.</p>
+                    <p><strong>4. Contact:</strong> For concerns, email us via the profile section.</p>
                 </div>
-                
-                <button class="btn" style="margin-top:15px; background:var(--text-main); color:var(--glass-bg)" onclick="openOnlinePrivacy()">
-                    View Online Policy <i class="fas fa-external-link-alt"></i>
-                </button>
             </div>
         </section>
 
     </main>
 
-    <!-- NAVIGATION -->
+    <!-- BOTTOM NAV -->
     <nav>
-        <button class="nav-btn active" onclick="nav('tab-calc', this)"><i class="fas fa-calculator"></i></button>
-        <button class="nav-btn" onclick="nav('tab-cash', this)"><i class="fas fa-wallet"></i></button>
-        <button class="nav-btn" onclick="nav('tab-tools', this)"><i class="fas fa-th-large"></i></button>
-        <button class="nav-btn" onclick="nav('tab-profile', this)"><i class="fas fa-user-circle"></i></button>
+        <button class="nav-btn active" onclick="nav('tab-calc', this)">
+            <i class="fas fa-calculator"></i>
+            <span class="nav-text">Calc</span>
+        </button>
+        <button class="nav-btn" onclick="nav('tab-cash', this)">
+            <i class="fas fa-wallet"></i>
+            <span class="nav-text">Cash</span>
+        </button>
+        <button class="nav-btn" onclick="nav('tab-tools', this)">
+            <i class="fas fa-th-large"></i>
+            <span class="nav-text">Tools</span>
+        </button>
+        <button class="nav-btn" onclick="nav('tab-profile', this)">
+            <i class="fas fa-user-circle"></i>
+            <span class="nav-text">Profile</span>
+        </button>
     </nav>
-</div>
 
-<!-- =========================== -->
-<!-- JAVASCRIPT LOGIC -->
-<!-- =========================== -->
 <script>
-    // --- APP SETUP ---
-    document.addEventListener('DOMContentLoaded', () => { initCash(); if(localStorage.getItem('theme') === 'dark') applyTheme(true); });
+    // --- INIT ---
+    document.addEventListener('DOMContentLoaded', () => {
+        initCash();
+        if(localStorage.getItem('theme') === 'dark') applyTheme(true);
+        // Force rendering
+        document.body.style.display = 'flex';
+    });
 
-    // --- NAVIGATION ---
+    // --- NAVIGATION LOGIC ---
     function nav(id, btn) {
-        document.querySelectorAll('.tab-section').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
         document.getElementById(id).classList.add('active');
+        
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        if(id !== 'tab-tools') closeTool();
-        document.getElementById('panel-privacy').classList.remove('active');
+
+        // Close sub-panels if leaving tools
+        if(id !== 'tab-tools') {
+            document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('tools-menu').style.display = 'block';
+        }
+        document.getElementById('modal-privacy').classList.remove('active');
     }
 
-    // --- THEME ---
+    // --- CALCULATOR ---
+    let expression = '';
+    function insert(c) { expression += c; updateCalc(); }
+    function clearAll() { expression = ''; document.getElementById('calcRes').innerText='0'; updateCalc(); }
+    function backspace() { expression = expression.slice(0,-1); updateCalc(); }
+    function updateCalc() { document.getElementById('calcExpr').innerText = expression; try { if(expression) { const r=eval(expression); if(r!=expression) document.getElementById('calcRes').innerText=parseFloat(r.toFixed(4)); } } catch(e){} }
+    function calcResult() { try { expression=eval(expression).toString(); document.getElementById('calcRes').innerText=parseFloat(parseFloat(expression).toFixed(4)); } catch(e){document.getElementById('calcRes').innerText='Error';} }
+    function toggleSci() { document.getElementById('sciRow').classList.toggle('open'); }
+    function copyResult() { navigator.clipboard.writeText(document.getElementById('calcRes').innerText); alert('Copied!'); }
+
+    // --- CASH TALLY ---
+    const notes = [500, 200, 100, 50, 20, 10, 5, 2, 1];
+    function initCash() {
+        let h=''; notes.forEach(n=>{ h+=`<div class="flex-between" style="margin-bottom:8px"><span style="background:var(--primary); color:#fff; width:50px; text-align:center; padding:10px 0; border-radius:10px; font-weight:bold">${n}</span><input type="number" id="c-${n}" oninput="calcCash()" style="width:40%; margin:0 10px"><span id="t-${n}" style="width:60px; text-align:right; font-weight:600">0</span></div>`; });
+        document.getElementById('cashContainer').innerHTML=h;
+        const s=JSON.parse(localStorage.getItem('cashData')||'{}'); for(let n in s) if(document.getElementById(`c-${n}`)) document.getElementById(`c-${n}`).value=s[n]; calcCash();
+    }
+    function calcCash() { let gt=0, s={}; notes.forEach(n=>{ const v=parseInt(document.getElementById(`c-${n}`).value)||0; const t=v*n; document.getElementById(`t-${n}`).innerText=t; gt+=t; if(v>0)s[n]=v; }); document.getElementById('cashGrandTotal').innerText='₹'+gt.toLocaleString('en-IN'); localStorage.setItem('cashData', JSON.stringify(s)); }
+    function resetCash() { notes.forEach(n=>document.getElementById(`c-${n}`).value=''); calcCash(); }
+    function shareCash() { let t="*Cash Tally*\n"; notes.forEach(n=>{ const v=document.getElementById(`c-${n}`).value; if(v>0)t+=`${n} x ${v} = ${n*v}\n`; }); t+=`\nTotal: ${document.getElementById('cashGrandTotal').innerText}`; window.open('https://wa.me/?text='+encodeURIComponent(t)); }
+
+    // --- TOOLS ---
+    function openTool(id) {
+        document.getElementById('tools-menu').style.display='none';
+        document.getElementById('panel-'+id).classList.add('active');
+    }
+    function closeTool() {
+        document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('tools-menu').style.display='block';
+    }
+    function filterTools() { const f=document.getElementById('toolSearch').value.toUpperCase(); for(let c of document.getElementById('tools-menu').getElementsByClassName('tool-card')) c.style.display=c.innerText.toUpperCase().includes(f)?'':'none'; }
+
+    // --- MATH LOGIC ---
+    function calcEMI() { const p=v('emi-p'), r=v('emi-r')/1200, n=v('emi-n')*12; if(p&&r&&n) t('out-emi', Math.round((p*r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1)).toLocaleString()); }
+    function calcSIP() { const p=v('sip-p'), r=v('sip-r')/1200, n=v('sip-n')*12; if(p&&r&&n) t('out-sip', '₹'+Math.round(p*((Math.pow(1+r,n)-1)/r)*(1+r)).toLocaleString()); }
+    function calcGST() { const p=v('gst-amt'), r=v('gst-per'); if(p) t('out-gst', '₹'+(p+(p*r/100)).toFixed(2)); }
+    function calcFD() { const p=v('fd-p'), r=v('fd-r'), n=v('fd-t'); if(p) t('out-fd', '₹'+Math.round(p*Math.pow((1+r/400), 4*(n/12))).toLocaleString()); }
+    function calcDisc() { const p=v('disc-p'), d=v('disc-d'); if(p) t('out-disc', '₹'+(p-(p*d/100)).toFixed(0)); }
+    function calcBMI() { const w=v('bmi-w'), h=v('bmi-h')/100; if(w&&h) { const b=(w/(h*h)).toFixed(1); t('out-bmi', b); document.getElementById('bmi-msg').innerText = b<18.5?'Underweight':b<25?'Normal':'Overweight'; } }
+    function calcAge() { const d=document.getElementById('dob-input').value; if(d) { const diff=new Date()-new Date(d); const a=new Date(diff); document.getElementById('out-age').innerText = Math.abs(a.getUTCFullYear()-1970) + " Years Old"; } }
+    
+    // Helpers
+    function v(id){ return parseFloat(document.getElementById(id).value)||0; }
+    function t(id, val){ document.getElementById(id).innerText = val; }
+
+    // --- SETTINGS & PROFILE ---
     function toggleTheme() { const isDark = document.body.getAttribute('data-theme') === 'dark'; applyTheme(!isDark); }
     function applyTheme(isDark) {
         if(isDark) {
@@ -373,89 +460,29 @@
             document.getElementById('setThemeIcon').classList.replace('fa-toggle-on', 'fa-toggle-off');
         }
     }
-
-    // --- SOCIAL & CONTACT LINKS (EDIT HERE) ---
-    function openLink(type) {
-        let url = "";
-        switch(type) {
-            case 'instagram': url = "https://instagram.com/your_username"; break;
-            case 'telegram': url = "https://t.me/your_channel"; break;
-            case 'email': url = "mailto:your_email@gmail.com"; break;
-            case 'website': url = "https://yourwebsite.com"; break;
-        }
-        if(url) window.open(url, '_blank');
+    
+    function wipeData() { if(confirm('Reset all data?')) { localStorage.clear(); location.reload(); } }
+    
+    // Links (Edit These)
+    function openLink(t) {
+        const links = { insta: "https://instagram.com", tele: "https://telegram.org", mail: "mailto:you@gmail.com", web: "https://google.com" };
+        window.open(links[t], '_blank');
     }
-
-    function suggestFeature() {
-        const email = "your_email@gmail.com"; // Apna Email Yahan Likho
-        const subject = "Feature Request for CashMate Pro";
-        const body = "Hi Developer,%0D%0AI want to suggest a new feature:%0D%0A...";
-        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-    }
-
+    function contactUs() { window.open("mailto:you@gmail.com?subject=Feature Suggestion", '_blank'); }
     function shareApp() {
-        // Play Store Link Yahan Update Karein
-        const text = "Check out CashMate Pro! The best utility app for cash tally and calculations. Download now: https://play.google.com/store/apps/details?id=com.yourpackage.name";
-        if (navigator.share) {
-            navigator.share({ title: 'CashMate Pro', text: text }).catch(console.error);
-        } else {
-            navigator.clipboard.writeText(text);
-            alert("App link copied to clipboard!");
-        }
+        const msg = "Try CashMate Pro! https://play.google.com/store/apps/details?id=com.yourapp";
+        if(navigator.share) navigator.share({title:'CashMate', text:msg}); else { navigator.clipboard.writeText(msg); alert('Link Copied!'); }
     }
     
-    // --- PRIVACY POLICY ---
     function openPrivacy() {
-        document.querySelectorAll('.tab-section').forEach(t => t.classList.remove('active'));
-        document.getElementById('panel-privacy').classList.add('active');
+        document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+        document.getElementById('modal-privacy').classList.add('active');
     }
     function closePrivacy() {
-        document.getElementById('panel-privacy').classList.remove('active');
+        document.getElementById('modal-privacy').classList.remove('active');
         document.getElementById('tab-profile').classList.add('active');
     }
-    function openOnlinePrivacy() {
-        // Apna Hosted Privacy Policy Link Yahan Dalein (GitHub Pages / Google Sites)
-        window.open("https://your-privacy-policy-url.com", "_blank");
-    }
 
-    // --- CALCULATOR LOGIC ---
-    let expression = '';
-    function insert(c) { expression += c; updateCalc(); }
-    function clearAll() { expression = ''; document.getElementById('calcRes').innerText='0'; updateCalc(); }
-    function backspace() { expression = expression.slice(0,-1); updateCalc(); }
-    function updateCalc() { document.getElementById('calcExpr').innerText = expression; try { if(expression) { const r=eval(expression); if(r.toString()!=expression) document.getElementById('calcRes').innerText=parseFloat(r.toFixed(4)); } } catch(e){} }
-    function calcResult() { try { expression=eval(expression).toString(); document.getElementById('calcRes').innerText=parseFloat(parseFloat(expression).toFixed(4)); } catch(e){document.getElementById('calcRes').innerText='Error';} }
-    function toggleSci() { 
-        const row = document.getElementById('sciRow'); 
-        if(row.style.height === '0px' || row.style.height === '') { row.style.height='auto'; row.style.opacity='1'; } else { row.style.height='0'; row.style.opacity='0'; }
-    }
-    function copyResult() { navigator.clipboard.writeText(document.getElementById('calcRes').innerText); alert('Copied!'); }
-
-    // --- CASH TALLY LOGIC ---
-    const notes = [500, 200, 100, 50, 20, 10, 5, 2, 1];
-    function initCash() { 
-        let h=''; notes.forEach(n=>{ h+=`<div class="flex-between" style="margin-bottom:8px"><span style="background:var(--primary); color:#fff; width:50px; padding:8px 0; text-align:center; border-radius:12px; font-weight:bold">${n}</span><input type="number" id="c-${n}" oninput="calcCash()" style="width:45%; background:rgba(255,255,255,0.5); border:1px solid rgba(0,0,0,0.1)"><span id="t-${n}" style="width:60px; text-align:right; font-weight:bold; opacity:0.7">0</span></div>`; });
-        document.getElementById('cashContainer').innerHTML=h;
-        const s=JSON.parse(localStorage.getItem('cashData')||'{}'); for(let n in s) if(document.getElementById(`c-${n}`)) document.getElementById(`c-${n}`).value=s[n]; calcCash();
-    }
-    function calcCash() { let gt=0, s={}; notes.forEach(n=>{ const v=parseInt(document.getElementById(`c-${n}`).value)||0; const t=v*n; document.getElementById(`t-${n}`).innerText=t; gt+=t; if(v>0)s[n]=v; }); document.getElementById('cashGrandTotal').innerText='₹'+gt.toLocaleString('en-IN'); localStorage.setItem('cashData', JSON.stringify(s)); }
-    function resetCash() { notes.forEach(n=>document.getElementById(`c-${n}`).value=''); calcCash(); }
-    function shareCash() { let t="*Cash Tally*\n----------------\n"; notes.forEach(n=>{ const v=document.getElementById(`c-${n}`).value; if(v>0)t+=`${n} x ${v} = ${n*v}\n`; }); t+=`----------------\nTotal: ${document.getElementById('cashGrandTotal').innerText}\n----------------`; window.open('https://wa.me/?text='+encodeURIComponent(t)); }
-
-    // --- TOOLS LOGIC ---
-    function openTool(id) { document.getElementById('tools-menu').style.display='none'; document.getElementById('toolSearch').style.display='none'; document.querySelectorAll('.tool-panel').forEach(p=>p.style.display='none'); document.getElementById('panel-'+id).style.display='block'; }
-    function closeTool() { document.querySelectorAll('.tool-panel').forEach(p=>p.style.display='none'); document.getElementById('tools-menu').style.display='grid'; document.getElementById('toolSearch').style.display='block'; document.getElementById('toolSearch').value=''; filterTools(); }
-    function filterTools() { const f=document.getElementById('toolSearch').value.toUpperCase(); for(let c of document.getElementById('tools-menu').children) c.style.display=c.innerText.toUpperCase().includes(f)?'':'none'; }
-
-    // --- FORMULAS ---
-    function calcEMI() { const P=parseFloat(document.getElementById('emi-p').value)||0, R=parseFloat(document.getElementById('emi-r').value)||0, N=parseFloat(document.getElementById('emi-n').value)||0, r=R/12/100, n=N*12; let emi=(P*r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1)||0; document.getElementById('out-emi').innerText=Math.round(emi).toLocaleString(); }
-    function calcSIP() { const P=parseFloat(document.getElementById('sip-p').value)||0, R=parseFloat(document.getElementById('sip-r').value)||0, N=parseFloat(document.getElementById('sip-n').value)||0, i=R/100/12, m=N*12; const res=P*((Math.pow(1+i,m)-1)/i)*(1+i)||0; document.getElementById('out-sip-total').innerText='₹'+Math.round(res).toLocaleString(); }
-    function calcGST() { const amt=parseFloat(document.getElementById('gst-amt').value)||0, per=parseFloat(document.getElementById('gst-per').value)||0; document.getElementById('out-gst-total').innerText='₹'+(amt+(amt*per)/100).toFixed(2); }
-    function calcAge() { const d=document.getElementById('dob-input').value; if(!d)return; const dob=new Date(d), now=new Date(); let y=now.getFullYear()-dob.getFullYear(), m=now.getMonth()-dob.getMonth(), da=now.getDate()-dob.getDate(); if(da<0){m--; da+=new Date(now.getFullYear(),now.getMonth(),0).getDate();} if(m<0){y--; m+=12;} document.getElementById('age-result').innerText=`${y} Yrs, ${m} Mths, ${da} Days`; }
-    function calcBMI() { const w=parseFloat(document.getElementById('bmi-w').value)||0, h=parseFloat(document.getElementById('bmi-h').value)||0; if(w>0&&h>0){const bmi=(w/((h/100)**2)).toFixed(1); let msg="Normal"; if(bmi<18.5)msg="Underweight"; else if(bmi>=25)msg="Overweight"; document.getElementById('out-bmi').innerText=bmi; document.getElementById('bmi-msg').innerText=msg;} }
-    function calcFD() { const P=parseFloat(document.getElementById('fd-p').value)||0, R=parseFloat(document.getElementById('fd-r').value)||0, T=parseFloat(document.getElementById('fd-t').value)||0; const res=P*Math.pow((1+(R/100)/4),4*(T/12)); document.getElementById('out-fd-total').innerText='₹'+Math.round(res).toLocaleString(); }
-    function calcDisc() { const P=parseFloat(document.getElementById('disc-p').value)||0, D=parseFloat(document.getElementById('disc-d').value)||0; document.getElementById('out-disc').innerText='₹'+(P-(P*D)/100).toFixed(0); }
-    function wipeData() { if(confirm('Reset all app data?')) { localStorage.clear(); location.reload(); } }
 </script>
 </body>
 </html>
